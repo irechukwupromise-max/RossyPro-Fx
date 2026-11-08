@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d19">
+<title>RossyPro Fx</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d19;color:white;font-family:Arial,sans-serif;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.logo{font-size:27px;font-weight:bold;color:#f6c443}
+.logo span{color:white}
+.card{background:linear-gradient(120deg,#35230b,#101827);border:1px solid #dba927;border-radius:18px;padding:22px;margin-bottom:20px}
+.muted{color:#aeb7c8;font-size:13px}
+.balance{font-size:35px;font-weight:bold;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.currency,.action{background:#171f30;border:1px solid #394256;border-radius:13px;padding:16px}
+.currency strong{color:#f6c443}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px}
+button{background:#f2bd35;border:0;border-radius:12px;padding:15px;font-weight:bold;font-size:15px;width:100%;cursor:pointer}
+.action{background:#202b40;color:white;text-align:center}
+.section{font-size:18px;font-weight:bold;margin:22px 0 12px}
+input,select{width:100%;padding:14px;margin:7px 0;background:#172033;color:white;border:1px solid #46516a;border-radius:9px}
+.rate{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #30394b}
+nav{display:flex;justify-content:space-around;position:sticky;bottom:0;background:#0b1220;padding:15px 0;margin:25px -20px -20px;border-top:1px solid #3d4658}
+nav span{font-size:12px;color:#f6c443}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">ROSSY<span>PRO FX</span></div>
+<div>👤</div>
+</header>
+
+<div class="card">
+<div class="muted">TOTAL PORTFOLIO VALUE</div>
+<div class="balance" id="total">$0.00</div>
+<div class="muted">Private exchange dashboard</div>
+</div>
+
+<div class="section">My currencies</div>
+<div class="grid">
+<div class="currency">🇺🇸 USD<br><strong>$0.00</strong></div>
+<div class="currency">🇳🇬 NGN<br><strong>₦0.00</strong></div>
+<div class="currency">🇲🇺 MUR<br><strong>Rs 0.00</strong></div>
+<div class="currency">🇬🇭 GHS<br><strong>GH₵0.00</strong></div>
+<div class="currency">🇰🇪 KES<br><strong>KSh 0.00</strong></div>
+<div class="currency">🪙 USDT<br><strong>0.00</strong></div>
+</div>
+
+<div class="section">Quick actions</div>
+<div class="actions">
+<button onclick="show('Deposit')">↓ Deposit</button>
+<button onclick="show('Withdraw')">↑ Withdraw</button>
+<button onclick="show('Exchange')">⇄ Exchange</button>
+<button onclick="show('Best Rates')">↗ Best Rates</button>
+</div>
+
+<div class="section">Currency calculator</div>
+<div class="card">
+<label>Amount</label>
+<input id="amount" type="number" placeholder="Enter amount" value="100">
+<label>From</label>
+<select id="from">
+<option>USD</option><option>NGN</option><option>MUR</option>
+<option>GHS</option><option>KES</option><option>USDT</option>
+</select>
+<label>To</label>
+<select id="to">
+<option>NGN</option><option>USD</option><option>MUR</option>
+<option>GHS</option><option>KES</option><option>USDT</option>
+</select>
+<button onclick="calculate()">Calculate conversion</button>
+<p id="result" class="muted">Demo calculator – rates are not live.</p>
+</div>
+
+<div class="section">Live exchange rates</div>
+<div class="card">
+<div class="rate"><span>USD → NGN</span><strong>Connect rate API</strong></div>
+<div class="rate"><span>USD → MUR</span><strong>Connect rate API</strong></div>
+<div class="rate"><span>USD → GHS</span><strong>Connect rate API</strong></div>
+<div class="rate"><span>USD → KES</span><strong>Connect rate API</strong></div>
+<p class="muted">Live provider connections will be added later.</p>
+</div>
+
+<div id="notice" class="card" style="display:none">
+<h3 id="heading"></h3>
+<p class="muted">This feature will be activated during integration.</p>
+<button onclick="document.getElementById('notice').style.display='none'">Close</button>
+</div>
+
+<nav>
+<span>⌂ Home</span><span>⇄ Exchange</span>
+<span>▤ History</span><span>⚙ Settings</span>
+</nav>
+
+<script>
+function show(name){
+document.getElementById('notice').style.display='block';
+document.getElementById('heading').textContent=name;
+}
+const demoRates={USD:1,NGN:1460.5,MUR:45.2,GHS:16.8,KES:129,USDT:1};
+function calculate(){
+let amount=Number(document.getElementById('amount').value);
+let from=document.getElementById('from').value;
+let to=document.getElementById('to').value;
+if(!Number.isFinite(amount)||amount<=0){
+document.getElementById('result').textContent='Enter a valid amount.';
+return;
+}
+let result=amount*demoRates[to]/demoRates[from];
+document.getElementById('result').textContent=
+'Estimated demo result: '+result.toLocaleString(undefined,{maximumFractionDigits:2})+' '+to;
+}
+</script>
+</body>
+</html>
