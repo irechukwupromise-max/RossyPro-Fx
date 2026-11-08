@@ -20,28 +20,24 @@ jobs:
         with:
           node-version: 22
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
       - name: Install dependencies
         run: npm install
 
       - name: Build web app
         run: npm run build
-      
 
       - name: Add Android platform
         run: npx cap add android
-        -name: Increase Gradle download timeout
-        run: |
-          FILE=android/gradle/wrapper/gradle-wrapper.properties
-          sed -i 's#^distributionUrl=.*#distributionUrl=https\\://services.gradle.org/distributions/gradle-8.11.1-all.zip#' "$FILE"
-          if grep -q '^networkTimeout=' "$FILE"; then
-            sed -i 's/^networkTimeout=.*/networkTimeout=120000/' "$FILE"
-          else
-            echo 'networkTimeout=120000' >> "$FILE"
-          fi
 
       - name: Sync Android project
         run: npx cap sync android
-        
+
       - name: Prepare RossyPro icon
         run: |
           mkdir -p assets
@@ -52,19 +48,17 @@ jobs:
           npm install --save-dev @capacitor/assets
           npx capacitor-assets generate --android
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
+      - name: Increase Gradle download timeout
+        run: |
+          FILE=android/gradle/wrapper/gradle-wrapper.properties
+          sed -i 's#^distributionUrl=.*#distributionUrl=https\://services.gradle.org/distributions/gradle-8.11.1-all.zip#' "$FILE"
+          echo 'networkTimeout=120000' >> "$FILE"
 
       - name: Build APK
         working-directory: android
-        env:
-          GRADLE_OPTS: "-Dorg.gradle.internal.http.connectionTimeout=120000 -Dorg.gradle.internal.http.socketTimeout=120000"
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --refresh-dependencies
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
