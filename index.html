@@ -114,6 +114,10 @@ let result=amount*demoRates[to]/demoRates[from];
 document.getElementById('result').textContent=
 'Estimated demo result: '+result.toLocaleString(undefined,{maximumFractionDigits:2})+' '+to;
 }
-</script>
+</script>if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
 </body>
 </html>
