@@ -2,9 +2,5 @@
 {
   "appId": "com.rossypro.fx",
   "appName": "RossyPro Fx",
-  "webDir": ".",
-  "bundledWebRuntime": false,
-  "server": {
-    "androidScheme": "https"
-  }
+  "webDir": "www"
 }
