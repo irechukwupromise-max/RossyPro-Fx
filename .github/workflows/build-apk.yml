@@ -29,6 +29,15 @@ jobs:
 
       - name: Add Android platform
         run: npx cap add android
+        -name: Increase Gradle download timeout
+        run: |
+          FILE=android/gradle/wrapper/gradle-wrapper.properties
+          sed -i 's#^distributionUrl=.*#distributionUrl=https\\://services.gradle.org/distributions/gradle-8.11.1-all.zip#' "$FILE"
+          if grep -q '^networkTimeout=' "$FILE"; then
+            sed -i 's/^networkTimeout=.*/networkTimeout=120000/' "$FILE"
+          else
+            echo 'networkTimeout=120000' >> "$FILE"
+          fi
 
       - name: Sync Android project
         run: npx cap sync android
