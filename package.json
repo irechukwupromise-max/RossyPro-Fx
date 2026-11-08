@@ -1,0 +1,17 @@
+
+{
+  "name": "rossypro-fx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RossyPro Fx private currency exchange app",
+  "scripts": {
+    "build": "echo RossyPro Fx build ready"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/android": "^7.4.3"
+  }
+}
