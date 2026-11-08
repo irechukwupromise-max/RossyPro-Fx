@@ -3,9 +3,8 @@
   "name": "rossypro-fx",
   "version": "1.0.0",
   "private": true,
-  "description": "RossyPro Fx private currency exchange app",
   "scripts": {
-    "build": "echo RossyPro Fx build ready"
+    "build": "mkdir -p www && cp index.html manifest.json service-worker.js icon-192.png icon-512.png www/"
   },
   "dependencies": {
     "@capacitor/core": "^7.4.3"
